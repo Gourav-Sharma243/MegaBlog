@@ -23,9 +23,17 @@ export default function PostForm({ post }) {
 
     const submit = async (data) => {
         console.log("Handle Submit is called");
+
+        // ✅ Prevent submission if userData is not ready
+        if (!userData || !userData.$id) {
+            alert("User data not loaded yet. Please wait or re-login.");
+            return;
+        }
+
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
             console.log("When Post is present");
+
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
             }
@@ -36,11 +44,12 @@ export default function PostForm({ post }) {
             });
 
             if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
+                navigate(`/post/${dbPost.$id}`);
             }
         } else {
-            const file = await appwriteService.uploadFile(data.image[0])
+            const file = await appwriteService.uploadFile(data.image[0]);
             console.log("When post is absent");
+
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
@@ -68,9 +77,8 @@ export default function PostForm({ post }) {
         return '';
     }, []);
 
-
     useEffect(() => {
-        const subscription = watch((value, {name}) => {
+        const subscription = watch((value, { name }) => {
             if (name === 'title') {
                 setValue('slug', slugTransform(value.title), { shouldValidate: true });
             }
@@ -80,6 +88,10 @@ export default function PostForm({ post }) {
 
     }, [watch, slugTransform, setValue]);
 
+    // ✅ Prevent rendering form until userData is ready
+    if (!userData) {
+        return <div className="text-center py-8 text-gray-600">Loading user data...</div>;
+    }
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
@@ -99,7 +111,12 @@ export default function PostForm({ post }) {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                     }}
                 />
-                <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+                <RTE
+                    label="Content :"
+                    name="content"
+                    control={control}
+                    defaultValue={getValues("content")}
+                />
             </div>
             <div className="w-1/3 px-2">
                 <Input
