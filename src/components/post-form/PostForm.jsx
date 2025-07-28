@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
@@ -9,62 +9,77 @@ export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
     defaultValues: {
       title: post?.title || "",
-      slug: post?.$id || "",
+      slug: post?.slug || "",
       content: post?.content || "",
       status: post?.status || "active",
     },
   });
 
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
+  const authStatus = useSelector((state) => state.auth.status);
+
+  // Early return if user data is not available
+  if (!authStatus || authStatus === "loading") {
+  return (
+    <div className="flex justify-center items-center h-64">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading authentication...</p>
+      </div>
+    </div>
+  );
+}
+
+if (authStatus === "unauthenticated" || !userData) {
+  return (
+    <div className="flex justify-center items-center h-64">
+      <div className="text-center">
+        <p className="text-red-600">Please log in to create posts</p>
+        <Button onClick={() => navigate("/login")} className="mt-4">
+          Go to Login
+        </Button>
+      </div>
+    </div>
+  );
+}
 
   const submit = async (data) => {
-    setError(""); // reset error before new attempt
-
     try {
       if (post) {
-        const file = data.image && data.image[0]
-          ? await appwriteService.uploadFile(data.image[0])
-          : null;
+        const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
-        if (file && post.featuredImage) {
-          await appwriteService.deleteFile(post.featuredImage);
+        if (file) {
+          appwriteService.deleteFile(post.featuredImage);
         }
 
         const dbPost = await appwriteService.updatePost(post.$id, {
           ...data,
-          featuredImage: file ? file.$id : post.featuredImage,
+          featuredImage: file ? file.$id : undefined,
         });
 
-        if (dbPost && dbPost.$id) {
+        if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
-        } else {
-          setError("Failed to update post. Please try again.");
         }
       } else {
-        // Defensive: ensure data.image exists and is an array
-        if (!data.image || !data.image[0]) {
-          setError("Please upload a featured image.");
-          return;
-        }
         const file = await appwriteService.uploadFile(data.image[0]);
-        if (file && file.$id) {
-          data.featuredImage = file.$id;
-          const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
-          if (dbPost && dbPost.$id) {
+
+        if (file) {
+          const fileId = file.$id;
+          data.featuredImage = fileId;
+          const dbPost = await appwriteService.createPost({ 
+            ...data, 
+            userId: userData.$id 
+          });
+
+          if (dbPost) {
             navigate(`/post/${dbPost.$id}`);
-          } else {
-            setError("Post creation failed. Please try again.");
           }
-        } else {
-          setError("Image upload failed. Please try again.");
         }
       }
-    } catch (err) {
-      setError(
-        err?.message || "An unexpected error occurred. Please try again."
-      );
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // You can add toast notification here
     }
   };
 
@@ -75,6 +90,7 @@ export default function PostForm({ post }) {
         .toLowerCase()
         .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-");
+
     return "";
   }, []);
 
@@ -84,6 +100,7 @@ export default function PostForm({ post }) {
         setValue("slug", slugTransform(value.title), { shouldValidate: true });
       }
     });
+
     return () => subscription.unsubscribe();
   }, [watch, slugTransform, setValue]);
 
@@ -115,7 +132,7 @@ export default function PostForm({ post }) {
           accept="image/png, image/jpg, image/jpeg, image/gif"
           {...register("image", { required: !post })}
         />
-        {post && post.featuredImage && (
+        {post && (
           <div className="w-full mb-6">
             <img
               src={appwriteService.getFileView(post.featuredImage)}
@@ -130,18 +147,9 @@ export default function PostForm({ post }) {
           className="mb-6"
           {...register("status", { required: true })}
         />
-        <Button
-          type="submit"
-          bgColor={post ? "bg-green-500" : undefined}
-          className="w-full py-3"
-        >
+        <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full py-3">
           {post ? "Update" : "Submit"}
         </Button>
-        {error && (
-          <p className="mt-4 text-red-600 text-sm font-medium text-center" role="alert">
-            {error}
-          </p>
-        )}
       </div>
     </form>
   );
