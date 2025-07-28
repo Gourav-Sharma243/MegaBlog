@@ -6,30 +6,38 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function PostForm({ post }) {
-  const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
-    defaultValues: {
-      title: post?.title || "",
-      slug: post?.$id || "",
-      content: post?.content || "",
-      status: post?.status || "active",
-    },
-  });
+  const { register, handleSubmit, watch, setValue, control, getValues } =
+    useForm({
+      defaultValues: {
+        title: post?.title || "",
+        slug: post?.$id || "",
+        content: post?.content || "",
+        status: post?.status || "active",
+      },
+    });
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
     if (post) {
-      const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+      const file = data.image[0]
+        ? await appwriteService.uploadFile(data.image[0])
+        : null;
 
       if (file) {
         appwriteService.deleteFile(post.featuredImage);
       }
 
-      const dbPost = await appwriteService.updatePost(post.$id, {
+      const dbPost = await appwriteService.createPost({
         ...data,
-        featuredImage: file ? file.$id : undefined,
+        userId: userData.$id,
       });
+      if (dbPost && dbPost.$id) {
+        navigate(`/post/${dbPost.$id}`);
+      } else {
+        alert("Failed to create post. Please try again.");
+      }
 
       if (dbPost) {
         navigate(`/post/${dbPost.$id}`);
@@ -40,7 +48,10 @@ export default function PostForm({ post }) {
       if (file) {
         const fileId = file.$id;
         data.featuredImage = fileId;
-        const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+        const dbPost = await appwriteService.createPost({
+          ...data,
+          userId: userData.$id,
+        });
 
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
@@ -85,10 +96,17 @@ export default function PostForm({ post }) {
           className="mb-6"
           {...register("slug", { required: true })}
           onInput={(e) => {
-            setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
+            setValue("slug", slugTransform(e.currentTarget.value), {
+              shouldValidate: true,
+            });
           }}
         />
-        <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+        <RTE
+          label="Content :"
+          name="content"
+          control={control}
+          defaultValue={getValues("content")}
+        />
       </div>
       <div className="w-full lg:w-1/3 px-2">
         <Input
@@ -113,7 +131,11 @@ export default function PostForm({ post }) {
           className="mb-6"
           {...register("status", { required: true })}
         />
-        <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full py-3">
+        <Button
+          type="submit"
+          bgColor={post ? "bg-green-500" : undefined}
+          className="w-full py-3"
+        >
           {post ? "Update" : "Submit"}
         </Button>
       </div>
