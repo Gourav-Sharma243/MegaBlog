@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Input, RTE, Select } from "..";
 import appwriteService from "../../appwrite/config";
@@ -6,57 +6,65 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function PostForm({ post }) {
-  const { register, handleSubmit, watch, setValue, control, getValues } =
-    useForm({
-      defaultValues: {
-        title: post?.title || "",
-        slug: post?.$id || "",
-        content: post?.content || "",
-        status: post?.status || "active",
-      },
-    });
+  const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
+    defaultValues: {
+      title: post?.title || "",
+      slug: post?.$id || "",
+      content: post?.content || "",
+      status: post?.status || "active",
+    },
+  });
 
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
-    if (post) {
-      const file = data.image[0]
-        ? await appwriteService.uploadFile(data.image[0])
-        : null;
+    setError(""); // reset error before new attempt
 
-      if (file) {
-        appwriteService.deleteFile(post.featuredImage);
-      }
+    try {
+      if (post) {
+        const file = data.image && data.image[0]
+          ? await appwriteService.uploadFile(data.image[0])
+          : null;
 
-      const dbPost = await appwriteService.createPost({
-        ...data,
-        userId: userData.$id,
-      });
-      if (dbPost && dbPost.$id) {
-        navigate(`/post/${dbPost.$id}`);
-      } else {
-        alert("Failed to create post. Please try again.");
-      }
+        if (file && post.featuredImage) {
+          await appwriteService.deleteFile(post.featuredImage);
+        }
 
-      if (dbPost) {
-        navigate(`/post/${dbPost.$id}`);
-      }
-    } else {
-      const file = await appwriteService.uploadFile(data.image[0]);
-
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId;
-        const dbPost = await appwriteService.createPost({
+        const dbPost = await appwriteService.updatePost(post.$id, {
           ...data,
-          userId: userData.$id,
+          featuredImage: file ? file.$id : post.featuredImage,
         });
 
-        if (dbPost) {
+        if (dbPost && dbPost.$id) {
           navigate(`/post/${dbPost.$id}`);
+        } else {
+          setError("Failed to update post. Please try again.");
+        }
+      } else {
+        // Defensive: ensure data.image exists and is an array
+        if (!data.image || !data.image[0]) {
+          setError("Please upload a featured image.");
+          return;
+        }
+        const file = await appwriteService.uploadFile(data.image[0]);
+        if (file && file.$id) {
+          data.featuredImage = file.$id;
+          const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+          if (dbPost && dbPost.$id) {
+            navigate(`/post/${dbPost.$id}`);
+          } else {
+            setError("Post creation failed. Please try again.");
+          }
+        } else {
+          setError("Image upload failed. Please try again.");
         }
       }
+    } catch (err) {
+      setError(
+        err?.message || "An unexpected error occurred. Please try again."
+      );
     }
   };
 
@@ -67,7 +75,6 @@ export default function PostForm({ post }) {
         .toLowerCase()
         .replace(/[^a-zA-Z\d\s]+/g, "-")
         .replace(/\s/g, "-");
-
     return "";
   }, []);
 
@@ -77,7 +84,6 @@ export default function PostForm({ post }) {
         setValue("slug", slugTransform(value.title), { shouldValidate: true });
       }
     });
-
     return () => subscription.unsubscribe();
   }, [watch, slugTransform, setValue]);
 
@@ -96,17 +102,10 @@ export default function PostForm({ post }) {
           className="mb-6"
           {...register("slug", { required: true })}
           onInput={(e) => {
-            setValue("slug", slugTransform(e.currentTarget.value), {
-              shouldValidate: true,
-            });
+            setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
           }}
         />
-        <RTE
-          label="Content :"
-          name="content"
-          control={control}
-          defaultValue={getValues("content")}
-        />
+        <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
       </div>
       <div className="w-full lg:w-1/3 px-2">
         <Input
@@ -116,7 +115,7 @@ export default function PostForm({ post }) {
           accept="image/png, image/jpg, image/jpeg, image/gif"
           {...register("image", { required: !post })}
         />
-        {post && (
+        {post && post.featuredImage && (
           <div className="w-full mb-6">
             <img
               src={appwriteService.getFileView(post.featuredImage)}
@@ -138,6 +137,11 @@ export default function PostForm({ post }) {
         >
           {post ? "Update" : "Submit"}
         </Button>
+        {error && (
+          <p className="mt-4 text-red-600 text-sm font-medium text-center" role="alert">
+            {error}
+          </p>
+        )}
       </div>
     </form>
   );
