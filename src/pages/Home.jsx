@@ -1,11 +1,13 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; 
 import appwriteService from '../appwrite/config';
 import { Container, PostCard } from '../components';
 
 function Home() {
   const [posts, setPosts] = useState([]);
   const authStatus = useSelector((state) => state.auth.status);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     appwriteService.getPosts().then((posts) => {
@@ -15,14 +17,16 @@ function Home() {
     });
   }, []);
 
-  // Show login prompt if not logged in or no posts available
   if (!authStatus || posts.length === 0) {
     return (
       <div className="w-full py-12 mt-4 bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center px-4">
         <Container>
           <div className="flex flex-wrap -mx-2 justify-center">
             <div className="p-2 w-full max-w-md text-center">
-              <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-400 transition cursor-default">
+              <h1
+                className="text-3xl font-extrabold text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-400 transition cursor-pointer"
+                onClick={() => navigate('/login')}
+              >
                 Login to see all posts
               </h1>
             </div>
@@ -32,7 +36,6 @@ function Home() {
     );
   }
 
-  // Otherwise, show posts normally
   return (
     <div className="w-full py-10 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <Container>
