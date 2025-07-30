@@ -1,17 +1,19 @@
-import { Container, Logo, LogoutBtn } from '../index';
-import { useSelector } from 'react-redux';
-import { Link,useNavigate } from 'react-router-dom';
+import React from 'react'
+import { Container, Logo, LogoutBtn } from '../index'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 function Header() {
-  const authStatus = useSelector((state) => state.auth.status);
-  const navigate = useNavigate();
+  const authStatus = useSelector((state) => state.auth.status)
+  const navigate = useNavigate()
 
   const navItems = [
     {
       name: 'Home',
       slug: "/",
-      active: true,
-    },
+      active: true
+    }, 
     {
       name: "Login",
       slug: "/login",
@@ -32,30 +34,29 @@ function Header() {
       slug: "/add-post",
       active: authStatus,
     },
-  ];
+  ]
 
   return (
-    <header className="py-4 shadow bg-gray-600 dark:bg-gray-800">
+    <header className='py-4 bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 transition-colors sticky top-0 z-50'>
       <Container>
-        <nav className="flex items-center">
-          <div className="mr-6 flex-shrink-0">
-            <Link to="/">
-              <Logo width="70px" />
+        <nav className='flex items-center justify-between'>
+          <div className='mr-4'>
+            <Link to='/'>
+              <Logo width='70px' />
             </Link>
           </div>
-          <ul className="flex ml-auto space-x-4">
-            {navItems.map(
-              (item) =>
-                item.active && (
-                  <li key={item.name}>
-                    <button
-                      onClick={() => navigate(item.slug)}
-                      className="inline-block px-5 py-2 rounded-full text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-200"
-                    >
-                      {item.name}
-                    </button>
-                  </li>
-                )
+          <ul className='flex ml-auto items-center space-x-6'>
+            {navItems.map((item) => 
+            item.active ? (
+              <li key={item.name}>
+                <button
+                  onClick={() => navigate(item.slug)}
+                  className='px-4 py-2 font-semibold text-gray-700 dark:text-gray-200 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-gray-700 rounded-lg transition-all duration-200'
+                >
+                  {item.name}
+                </button>
+              </li>
+            ) : null
             )}
             {authStatus && (
               <li>
@@ -66,7 +67,7 @@ function Header() {
         </nav>
       </Container>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

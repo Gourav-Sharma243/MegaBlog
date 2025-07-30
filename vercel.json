@@ -1,12 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/megablog/:asset*",
-      "destination": "https://your-megablog-app.vercel.app/:asset*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/"
-    }
-  ]
+ 
 }
