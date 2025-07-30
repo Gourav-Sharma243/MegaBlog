@@ -1,5 +1,5 @@
 import { Container, Logo } from '../index'
-import UserMenu from './UserMenu'
+import UserMenu from '../UserMenu'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
