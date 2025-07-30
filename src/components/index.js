@@ -15,6 +15,7 @@ import Input from "./Input";
 import Landing from "./Landing";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
+import UserMenu from "./UserMenu";
 
 export {
     Header,
@@ -33,5 +34,6 @@ export {
     Select,
     Landing,
     ForgotPassword,
-    ResetPassword
+    ResetPassword,
+    UserMenu
 }

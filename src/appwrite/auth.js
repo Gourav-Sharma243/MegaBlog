@@ -106,7 +106,6 @@ export class AuthService {
         }
     }
 
-    // Session management
     async getSessions() {
         try {
             return await this.account.listSessions();
