@@ -214,34 +214,6 @@ src/
 - **Post Cards**: Preview with featured images
 - **Responsive Grid**: Adapts to screen size
 
-## 🚀 Deployment
-
-### **Vercel (Recommended)**
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
-
-### **Netlify**
-1. Build the project: `npm run build`
-2. Deploy the `dist` folder to Netlify
-3. Configure environment variables
-
-### **Manual Deployment**
-1. Build: `npm run build`
-2. Upload `dist` folder to your hosting provider
-3. Configure environment variables on your server
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
-## � License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -256,7 +228,6 @@ If you have any questions or need help, please:
 
 1. Check the [Issues](https://github.com/your-username/megablog/issues) page
 2. Create a new issue if your problem isn't already reported
-3. Join our community discussions
 
 ---
 
@@ -272,64 +243,6 @@ If you have any questions or need help, please:
 - [Redux Toolkit](https://redux-toolkit.js.org/)
 - [TinyMCE](https://www.tiny.cloud/)
 - [React Hook Form](https://react-hook-form.com/)
-
----
-
-## 🚀 Getting Started
-
-### ✅ Prerequisites
-
-- [Node.js](https://nodejs.org/) (v16+ recommended)
-- An [Appwrite](https://appwrite.io/) instance (self-hosted or cloud)
-
-### 📦 Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/yourusername/megablog.git
-   cd megablog
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables**
-
-   * Copy the `.env.sample` file to `.env`:
-
-     ```bash
-     cp .env.sample .env
-     ```
-
-   * Fill in your Appwrite credentials (project ID, endpoint, etc.).
-
-4. **Start the development server**
-
-   ```bash
-   npm run dev
-   ```
-
----
-
-## 📁 Project Structure
-
-```txt
-src/
-├── appwrite/        # Appwrite service integration
-├── assets/          # Static assets
-├── components/      # Reusable UI components
-├── conf/            # Configuration files
-├── pages/           # Route components (AllPosts, Post, EditPost, etc.)
-├── store/           # Redux store and slices
-├── index.css        # Tailwind CSS entry
-├── main.jsx         # App entry point
-├── App.jsx          # Root component
-public/
-├── vite.svg         # Favicon / public assets
-```
 
 ---
 
