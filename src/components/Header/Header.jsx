@@ -45,13 +45,13 @@ function Header() {
               <Logo width='70px' />
             </Link>
           </div>
-          <ul className='flex ml-auto items-center space-x-6'>
+          <ul className='flex ml-auto items-center space-x-1 sm:space-x-4 md:space-x-6'>
             {navItems.map((item) => 
             item.active ? (
               <li key={item.name}>
                 <button
                   onClick={() => navigate(item.slug)}
-                  className='px-4 py-2 font-semibold text-gray-700 dark:text-gray-200 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-gray-700 rounded-lg transition-all duration-200'
+                  className='px-2 sm:px-4 py-2 text-xs sm:text-sm md:text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-gray-700 rounded-lg transition-all duration-200'
                 >
                   {item.name}
                 </button>
