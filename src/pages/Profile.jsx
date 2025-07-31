@@ -40,17 +40,14 @@ function Profile() {
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                         {/* Cover Section */}
                         <div className="h-32 bg-gradient-to-r from-orange-600 to-teal-600"></div>
-                        
-                        {/* Profile Info */}
+
                         <div className="relative px-6 pb-6">
-                            {/* Avatar */}
                             <div className="absolute -top-16 left-6">
                                 <div className="w-32 h-32 bg-gradient-to-r from-orange-600 to-teal-600 rounded-full flex items-center justify-center text-white text-4xl font-bold border-4 border-white dark:border-gray-800 shadow-lg">
                                     {getInitials(userData?.name)}
                                 </div>
                             </div>
                             
-                            {/* User Details */}
                             <div className="pt-20">
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                                     <div>
@@ -75,9 +72,7 @@ function Profile() {
                         </div>
                     </div>
 
-                    {/* Profile Details Cards */}
                     <div className="grid md:grid-cols-2 gap-6 mt-8">
-                        {/* Account Information */}
                         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
                                 <svg className="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,7 +185,7 @@ function Profile() {
                             </button>
                             
                             <button
-                                onClick={() => navigate('/all-posts')}
+                                onClick={() => navigate('/my-posts')}
                                 className="flex items-center justify-center p-4 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors"
                             >
                                 <svg className="w-5 h-5 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

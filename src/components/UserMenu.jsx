@@ -88,7 +88,7 @@ function UserMenu() {
                         <button
                             onClick={() => {
                                 setIsOpen(false)
-                                navigate('/all-posts')
+                                navigate('/my-posts')
                             }}
                             className="flex items-center w-full px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                         >
