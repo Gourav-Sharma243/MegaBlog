@@ -7,6 +7,7 @@ import store from './store/store.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import LandingPage from './pages/LandingPage.jsx'
 import { AuthLayout, Login, ForgotPassword, ResetPassword } from './components/index.js'
+import ErrorPage from './components/ErrorPage.jsx'
 
 import AddPost from "./pages/AddPost";
 import Signup from './pages/Signup'
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
         {
             path: "/",
