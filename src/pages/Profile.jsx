@@ -1,8 +1,10 @@
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Container } from '../components'
 
 function Profile() {
     const userData = useSelector(state => state.auth.userData)
+    const navigate = useNavigate()
 
     // Get user initials for avatar
     const getInitials = (name) => {
@@ -168,7 +170,6 @@ function Profile() {
                         </div>
                     </div>
 
-                    {/* Quick Actions */}
                     <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 mt-8">
                         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
                             <svg className="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -179,7 +180,7 @@ function Profile() {
                         
                         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             <button
-                                onClick={() => window.location.href = '/add-post'}
+                                onClick={() => navigate('/add-post')}
                                 className="flex items-center justify-center p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors"
                             >
                                 <svg className="w-5 h-5 mr-2 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,7 +190,7 @@ function Profile() {
                             </button>
                             
                             <button
-                                onClick={() => window.location.href = '/all-posts'}
+                                onClick={() => navigate('/all-posts')}
                                 className="flex items-center justify-center p-4 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors"
                             >
                                 <svg className="w-5 h-5 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,7 +200,7 @@ function Profile() {
                             </button>
                             
                             <button
-                                onClick={() => window.location.href = '/'}
+                                onClick={() => navigate('/')}
                                 className="flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                             >
                                 <svg className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

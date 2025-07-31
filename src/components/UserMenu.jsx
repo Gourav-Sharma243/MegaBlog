@@ -69,7 +69,6 @@ function UserMenu() {
             </button>
             {isOpen && (
                 <div className="absolute right-2 sm:right-0 left-2 sm:left-auto mt-2 w-auto sm:w-56 max-w-xs bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50">
-                    {/* User Info Section */}
                     <div className="px-3 sm:px-4 py-2 sm:py-3 border-b border-gray-200 dark:border-gray-700">
                         <div className="flex items-center space-x-2 sm:space-x-3">
                             <div className="w-8 sm:w-10 h-8 sm:h-10 bg-gradient-to-r from-orange-600 to-teal-600 rounded-full flex items-center justify-center text-white text-xs sm:text-sm font-semibold">
