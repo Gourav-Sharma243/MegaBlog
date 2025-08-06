@@ -67,10 +67,13 @@ export class Service{
                 this.storeUserMapping(userId, authorName);
             }
             
+            // Use unique ID to avoid slug conflicts
+            const uniqueId = ID.unique();
+            
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                slug,
+                uniqueId, // Use unique ID instead of user-generated slug
                 {
                     title,
                     content,
@@ -81,6 +84,7 @@ export class Service{
             )
         } catch (error) {
             console.log("Appwrite service :: createPost :: error", error);
+            throw error; // Re-throw to handle in the UI
         }
     }
 
