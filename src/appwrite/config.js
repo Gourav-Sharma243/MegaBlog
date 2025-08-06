@@ -30,14 +30,32 @@ export class Service{
         try {
             const mappings = JSON.parse(localStorage.getItem('userMappings') || '{}');
             
-            // Return cached name if available, otherwise return just the userId for now
-            // In a real app, you'd need server-side functions to fetch user names
+            // Known users mapping for existing posts
+            const knownUsers = {
+                '6892e34c9a6c093320ef': 'Radhika Gaikwad',
+                '688406c453e66eb38e36': 'Radhika Gaikwad', // If this is also your post
+                '688aceb55b81f0db941a': 'Radhika Gaikwad', // If this is also your post
+                // Add other users' names as you identified them
+            };
+            
+            console.log('getUserName called with userId:', userId);
+            console.log('Available knownUsers:', knownUsers);
+            console.log('Available mappings:', mappings);
+            
+            // Return cached name or known user name
             if (mappings[userId]) {
+                console.log('Found in mappings:', mappings[userId]);
                 return mappings[userId];
+            }
+            
+            if (knownUsers[userId]) {
+                console.log('Found in knownUsers:', knownUsers[userId]);
+                return knownUsers[userId];
             }
             
             // For unknown users, show a generic name with part of their ID
             const shortId = userId.slice(-8);
+            console.log('Unknown user, returning:', `User ${shortId}`);
             return `User ${shortId}`;
             
         } catch (error) {
