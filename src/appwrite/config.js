@@ -33,29 +33,25 @@ export class Service{
             // Known users mapping for existing posts
             const knownUsers = {
                 '6892e34c9a6c093320ef': 'Radhika Gaikwad',
-                '688406c453e66eb38e36': 'Radhika Gaikwad', // If this is also your post
-                '688aceb55b81f0db941a': 'Radhika Gaikwad', // If this is also your post
-                // Add other users' names as you identified them
+                '68917766761498febb37': 'Vansh Rana',
+                '6891770814e233b4b087': 'Taranveer Singh',
+                '688aceb55b81f0db941a': 'Sarthak Bishnoi',
+                '6887e3b5b93dabf9211f': 'Gourav2',
+                '688406c453e66eb38e36': 'Gourav Sharma',
+                // Add new users as they join
             };
-            
-            console.log('getUserName called with userId:', userId);
-            console.log('Available knownUsers:', knownUsers);
-            console.log('Available mappings:', mappings);
             
             // Return cached name or known user name
             if (mappings[userId]) {
-                console.log('Found in mappings:', mappings[userId]);
                 return mappings[userId];
             }
             
             if (knownUsers[userId]) {
-                console.log('Found in knownUsers:', knownUsers[userId]);
                 return knownUsers[userId];
             }
             
             // For unknown users, show a generic name with part of their ID
             const shortId = userId.slice(-8);
-            console.log('Unknown user, returning:', `User ${shortId}`);
             return `User ${shortId}`;
             
         } catch (error) {

@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom'
 function PostCard({ $id, title, featuredImage, userId }) {
     const authorName = appwriteService.getUserName(userId);
     
+    // Force re-render with a key based on userId
+    const cardKey = `${$id}-${userId}`;
+    
     return (
-        <Link to={`/post/${$id}`}>
+        <Link to={`/post/${$id}`} key={cardKey}>
             <div className='w-full bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl dark:hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-gray-200 dark:border-gray-700'>
                 <div className='w-full justify-center mb-4 overflow-hidden rounded-lg'>
                     <img 
