@@ -14,7 +14,7 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId}){
+    async createPost({title, slug, content, featuredImage, status, userId}) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -29,7 +29,7 @@ export class Service{
                 }
             )
         } catch (error) {
-            console.log("Appwrite serive :: createPost :: error", error);
+            console.log("Appwrite service :: createPost :: error", error);
         }
     }
 
@@ -44,11 +44,10 @@ export class Service{
                     content,
                     featuredImage,
                     status,
-
                 }
             )
         } catch (error) {
-            console.log("Appwrite serive :: updatePost :: error", error);
+            console.log("Appwrite service :: updatePost :: error", error);
         }
     }
 
@@ -96,7 +95,6 @@ export class Service{
         }
     }
 
-    // file upload service
 
     async uploadFile(file){
     try {
@@ -128,12 +126,26 @@ export class Service{
     }
 
     getFileView(fileId) {
-    const url = this.bucket.getFileView(conf.appwriteBucketId, fileId);
-    console.log("Generated view URL:", url.toString());
-    return url;
-}
-}
+        const url = this.bucket.getFileView(conf.appwriteBucketId, fileId);
+        console.log("Generated view URL:", url.toString());
+        return url;
+    }
 
-
+    // Since we can't fetch other users' data directly from client-side for security,
+    // we'll create a simple cache system for author information
+    async getUserInfo(userId) {
+        try {
+            // For now, we'll return a placeholder since we can't fetch other users' data
+            // In a real implementation, this would be a server-side function
+            return {
+                name: 'Author', // Placeholder
+                email: 'author@example.com'
+            };
+        } catch (error) {
+            console.log("Appwrite service :: getUserInfo :: error", error);
+            return null;
+        }
+    }
+}
 const service = new Service()
 export default service

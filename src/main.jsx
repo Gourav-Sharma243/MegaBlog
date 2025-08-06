@@ -16,6 +16,7 @@ import Post from "./pages/Post";
 import AllPosts from "./pages/AllPosts";
 import MyPosts from "./pages/MyPosts";
 import Profile from "./pages/Profile";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
                     <ResetPassword />
                 </AuthLayout>
             ),
+        },
+        {
+            path: "/verify-email",
+            element: <VerifyEmail />,
         },
         {
             path: "/signup",

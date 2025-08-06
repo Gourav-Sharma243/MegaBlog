@@ -13,6 +13,7 @@ function PostCard({ $id, title, featuredImage }) {
                         className='w-full h-48 object-cover transition-transform duration-300 hover:scale-110'
                     />
                 </div>
+                
                 <h2 className='text-xl font-bold text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors line-clamp-2'>
                     {title}
                 </h2>

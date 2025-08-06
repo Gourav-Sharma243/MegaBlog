@@ -17,7 +17,20 @@ export class AuthService {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
                 // Automatically log in after account creation
-                return this.login({email, password});
+                const session = await this.login({email, password});
+                
+                if (session) {
+                    // Send email verification automatically after successful signup
+                    try {
+                        await this.sendEmailVerification();
+                        console.log("Email verification sent successfully");
+                    } catch (verificationError) {
+                        console.error("Failed to send verification email:", verificationError);
+                        // Don't throw here - account creation was successful
+                    }
+                }
+                
+                return session;
             } else {
                 return userAccount;
             }
@@ -65,11 +78,22 @@ export class AuthService {
         }
     }
 
+    // Helper function to get the correct base URL for email links
+    getBaseUrl() {
+        // In production, use the configured production URL
+        // In development, use localhost
+        if (import.meta.env.PROD) {
+            return conf.productionUrl;
+        } else {
+            return window.location.origin;
+        }
+    }
+
     async sendPasswordRecovery(email) {
         try {
             return await this.account.createRecovery(
                 email, 
-                `${window.location.origin}/reset-password`
+                `${this.getBaseUrl()}/reset-password`
             );
         } catch (error) {
             console.error("Appwrite service :: sendPasswordRecovery :: error", error);
@@ -89,7 +113,7 @@ export class AuthService {
     async sendEmailVerification() {
         try {
             return await this.account.createVerification(
-                `${window.location.origin}/verify-email`
+                `${this.getBaseUrl()}/verify-email`
             );
         } catch (error) {
             console.error("Appwrite service :: sendEmailVerification :: error", error);

@@ -10,18 +10,28 @@ function Signup() {
     const navigate = useNavigate()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const [emailSent, setEmailSent] = useState(false)
     const dispatch = useDispatch()
     const { register, handleSubmit, formState: { errors } } = useForm()
 
     const create = async (data) => {
         setError("")
         setLoading(true)
+        setEmailSent(false)
+        
         try {
             const userData = await authService.createAccount(data)
             if (userData) {
                 const currentUser = await authService.getCurrentUser()
-                if (currentUser) dispatch(login(currentUser))
-                navigate("/")
+                if (currentUser) {
+                    dispatch(login(currentUser))
+                    setEmailSent(true)
+                    
+                    // Show success message for 3 seconds then redirect
+                    setTimeout(() => {
+                        navigate("/")
+                    }, 3000)
+                }
             }
         } catch (error) {
             setError(error.message)
@@ -51,6 +61,23 @@ function Signup() {
                 {error && (
                     <div className="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
                         <p className="text-red-600 dark:text-red-400 text-center">{error}</p>
+                    </div>
+                )}
+                
+                {emailSent && (
+                    <div className="mt-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                        <div className="flex items-center justify-center mb-2">
+                            <svg className="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <p className="text-green-600 dark:text-green-400 font-semibold">Account Created Successfully!</p>
+                        </div>
+                        <p className="text-green-600 dark:text-green-400 text-sm text-center">
+                            A verification email has been sent to your email address. Please check your inbox and click the verification link to activate your account.
+                        </p>
+                        <p className="text-green-500 dark:text-green-500 text-xs text-center mt-2">
+                            Redirecting to home page in a few seconds...
+                        </p>
                     </div>
                 )}
 
