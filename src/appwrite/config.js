@@ -14,8 +14,45 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({title, slug, content, featuredImage, status, userId}) {
+    // Store user mapping in localStorage for author display
+    storeUserMapping(userId, userName) {
         try {
+            const existingMappings = JSON.parse(localStorage.getItem('userMappings') || '{}');
+            existingMappings[userId] = userName;
+            localStorage.setItem('userMappings', JSON.stringify(existingMappings));
+        } catch (error) {
+            console.log("Error storing user mapping:", error);
+        }
+    }
+
+    // Get user name from mapping
+    getUserName(userId) {
+        try {
+            const mappings = JSON.parse(localStorage.getItem('userMappings') || '{}');
+            
+            // Return cached name if available, otherwise return just the userId for now
+            // In a real app, you'd need server-side functions to fetch user names
+            if (mappings[userId]) {
+                return mappings[userId];
+            }
+            
+            // For unknown users, show a generic name with part of their ID
+            const shortId = userId.slice(-8);
+            return `User ${shortId}`;
+            
+        } catch (error) {
+            console.log("Error getting user mapping:", error);
+            return 'Anonymous';
+        }
+    }
+
+    async createPost({title, slug, content, featuredImage, status, userId, authorName}) {
+        try {
+            // Store author name in localStorage for future reference
+            if (authorName) {
+                this.storeUserMapping(userId, authorName);
+            }
+            
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
@@ -95,6 +132,24 @@ export class Service{
         }
     }
 
+    // Method to get posts with author information
+    async getPostsWithAuthors(queries = [Query.equal("status", "active")]){
+        try {
+            const posts = await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                queries
+            );
+            
+            // Note: In a real-world scenario, you'd need server-side implementation
+            // to fetch user details by userId. For now, we'll work with available data.
+            return posts;
+        } catch (error) {
+            console.log("Appwrite service :: getPostsWithAuthors :: error", error);
+            return false
+        }
+    }
+
 
     async uploadFile(file){
     try {
@@ -130,22 +185,7 @@ export class Service{
         console.log("Generated view URL:", url.toString());
         return url;
     }
-
-    // Since we can't fetch other users' data directly from client-side for security,
-    // we'll create a simple cache system for author information
-    async getUserInfo(userId) {
-        try {
-            // For now, we'll return a placeholder since we can't fetch other users' data
-            // In a real implementation, this would be a server-side function
-            return {
-                name: 'Author', // Placeholder
-                email: 'author@example.com'
-            };
-        } catch (error) {
-            console.log("Appwrite service :: getUserInfo :: error", error);
-            return null;
-        }
-    }
 }
+
 const service = new Service()
 export default service

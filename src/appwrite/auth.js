@@ -28,6 +28,10 @@ export class AuthService {
                         console.error("Failed to send verification email:", verificationError);
                         // Don't throw here - account creation was successful
                     }
+                    
+                    // Store user mapping for author display
+                    const { default: appwriteService } = await import('./config.js');
+                    appwriteService.storeUserMapping(userAccount.$id, name);
                 }
                 
                 return session;
@@ -43,6 +47,15 @@ export class AuthService {
     async login({email, password}) {
         try {
             const session = await this.account.createEmailSession(email, password);
+            if (session) {
+                // Get user info and store mapping for author display
+                const user = await this.getCurrentUser();
+                if (user) {
+                    // Import the service to store user mapping
+                    const { default: appwriteService } = await import('./config.js');
+                    appwriteService.storeUserMapping(user.$id, user.name);
+                }
+            }
             return session;
         } catch (error) {
             console.error("Appwrite service :: login :: error", error);
@@ -52,9 +65,31 @@ export class AuthService {
 
     async getCurrentUser() {
         try {
-            return await this.account.get();
+            const user = await this.account.get();
+            if (user) {
+                // Store user mapping for author display
+                const { default: appwriteService } = await import('./config.js');
+                appwriteService.storeUserMapping(user.$id, user.name);
+            }
+            return user;
         } catch (error) {
             console.error("Appwrite service :: getCurrentUser :: error", error);
+            return null;
+        }
+    }
+
+    // Get user information (limited to current user due to client-side restrictions)
+    async getUserInfo() {
+        try {
+            const user = await this.account.get();
+            return {
+                $id: user.$id,
+                name: user.name,
+                email: user.email,
+                emailVerification: user.emailVerification
+            };
+        } catch (error) {
+            console.error("Appwrite service :: getUserInfo :: error", error);
             return null;
         }
     }

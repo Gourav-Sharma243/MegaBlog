@@ -2,7 +2,9 @@ import React from 'react'
 import appwriteService from "../appwrite/config"
 import { Link } from 'react-router-dom'
 
-function PostCard({ $id, title, featuredImage }) {
+function PostCard({ $id, title, featuredImage, userId }) {
+    const authorName = appwriteService.getUserName(userId);
+    
     return (
         <Link to={`/post/${$id}`}>
             <div className='w-full bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-2xl dark:hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border border-gray-200 dark:border-gray-700'>
@@ -14,9 +16,13 @@ function PostCard({ $id, title, featuredImage }) {
                     />
                 </div>
                 
-                <h2 className='text-xl font-bold text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors line-clamp-2'>
+                <h2 className='text-xl font-bold text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 transition-colors line-clamp-2 mb-2'>
                     {title}
                 </h2>
+                
+                <p className='text-sm text-gray-600 dark:text-gray-400'>
+                    by {authorName}
+                </p>
             </div>
         </Link>
     )

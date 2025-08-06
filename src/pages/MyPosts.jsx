@@ -158,7 +158,7 @@ function MyPosts() {
                 )}
               </div>
               <div className={post.status !== 'active' ? 'opacity-75' : ''}>
-                <PostCard {...post} />
+                <PostCard {...post} userId={post.userId} />
               </div>
             </div>
           ))}

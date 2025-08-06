@@ -52,9 +52,13 @@ export default function PostForm({ post }) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
 
+                // Store user mapping for author display
+                appwriteService.storeUserMapping(userData.$id, userData.name);
+
                 const dbPost = await appwriteService.createPost({
                     ...data,
                     userId: userData.$id,
+                    authorName: userData.name, // Pass the author name
                 });
 
                 if (dbPost) {

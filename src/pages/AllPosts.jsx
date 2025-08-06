@@ -47,7 +47,7 @@ function AllPosts() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {posts.map((post) => (
               <div key={post.$id} className="transform hover:scale-105 transition-transform duration-200">
-                <PostCard {...post} />
+                <PostCard {...post} userId={post.userId} />
               </div>
             ))}
           </div>

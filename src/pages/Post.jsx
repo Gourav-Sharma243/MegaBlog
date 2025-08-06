@@ -71,10 +71,15 @@ export default function Post() {
             )}
           </div>
 
-          {/* Post title */}
-          <h1 className="text-3xl font-extrabold mb-6 text-gray-900 dark:text-white">
-            {post.title}
-          </h1>
+          {/* Post title and author */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-extrabold mb-2 text-gray-900 dark:text-white">
+              {post.title}
+            </h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Published by {appwriteService.getUserName(post.userId)} on {new Date(post.$createdAt).toLocaleDateString()}
+            </p>
+          </div>
 
           {/* Post content inside a styled box */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
