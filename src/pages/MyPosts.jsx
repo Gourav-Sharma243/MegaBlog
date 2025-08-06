@@ -21,7 +21,6 @@ function MyPosts() {
         }
         setLoading(false);
       }).catch((error) => {
-        console.log("Error fetching user posts:", error);
         setLoading(false);
       });
     } else {
@@ -47,7 +46,6 @@ function MyPosts() {
       <div className="w-full py-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
         <Container>
           <div className="text-center max-w-2xl mx-auto">
-            {/* Empty State Illustration */}
             <div className="mb-8">
               <svg className="w-32 h-32 mx-auto text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9m0 0V2m0 4h6m4 0V6a2 2 0 00-2-2H9a2 2 0 00-2 2v2H5" />

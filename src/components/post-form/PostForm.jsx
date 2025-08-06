@@ -18,11 +18,8 @@ export default function PostForm({ post }) {
 
     const navigate = useNavigate();
     const userData = useSelector(state => state.auth.userData);
-    console.log("userData = ", userData);
 
     const submit = async (data) => {
-        console.log("Handle Submit is called");
-
         if (!userData || !userData.$id) {
             alert("User data not loaded yet. Please wait or re-login.");
             return;
@@ -30,7 +27,6 @@ export default function PostForm({ post }) {
 
         if (post) {
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
-            console.log("When Post is present");
 
             if (file) {
                 appwriteService.deleteFile(post.featuredImage);
@@ -46,19 +42,17 @@ export default function PostForm({ post }) {
             }
         } else {
             const file = await appwriteService.uploadFile(data.image[0]);
-            console.log("When post is absent");
 
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
 
-                // Store user mapping for author display
                 appwriteService.storeUserMapping(userData.$id, userData.name);
 
                 const dbPost = await appwriteService.createPost({
                     ...data,
                     userId: userData.$id,
-                    authorName: userData.name, // Pass the author name
+                    authorName: userData.name,
                 });
 
                 if (dbPost) {

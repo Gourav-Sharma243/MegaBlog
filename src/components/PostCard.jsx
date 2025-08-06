@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom'
 
 function PostCard({ $id, title, featuredImage, userId }) {
     const authorName = appwriteService.getUserName(userId);
-    
-    // Force re-render with a key based on userId
     const cardKey = `${$id}-${userId}`;
     
     return (

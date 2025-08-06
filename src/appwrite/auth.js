@@ -16,20 +16,15 @@ export class AuthService {
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount) {
-                // Automatically log in after account creation
                 const session = await this.login({email, password});
                 
                 if (session) {
-                    // Send email verification automatically after successful signup
                     try {
                         await this.sendEmailVerification();
-                        console.log("Email verification sent successfully");
                     } catch (verificationError) {
-                        console.error("Failed to send verification email:", verificationError);
-                        // Don't throw here - account creation was successful
+                        
                     }
                     
-                    // Store user mapping for author display
                     const { default: appwriteService } = await import('./config.js');
                     appwriteService.storeUserMapping(userAccount.$id, name);
                 }
@@ -39,7 +34,6 @@ export class AuthService {
                 return userAccount;
             }
         } catch (error) {
-            console.error("Appwrite service :: createAccount :: error", error);
             throw error;
         }
     }
@@ -58,7 +52,6 @@ export class AuthService {
             }
             return session;
         } catch (error) {
-            console.error("Appwrite service :: login :: error", error);
             throw error;
         }
     }
@@ -67,18 +60,15 @@ export class AuthService {
         try {
             const user = await this.account.get();
             if (user) {
-                // Store user mapping for author display
                 const { default: appwriteService } = await import('./config.js');
                 appwriteService.storeUserMapping(user.$id, user.name);
             }
             return user;
         } catch (error) {
-            console.error("Appwrite service :: getCurrentUser :: error", error);
             return null;
         }
     }
 
-    // Get user information (limited to current user due to client-side restrictions)
     async getUserInfo() {
         try {
             const user = await this.account.get();
@@ -89,7 +79,6 @@ export class AuthService {
                 emailVerification: user.emailVerification
             };
         } catch (error) {
-            console.error("Appwrite service :: getUserInfo :: error", error);
             return null;
         }
     }
@@ -98,25 +87,19 @@ export class AuthService {
         try {
             await this.account.deleteSessions();
         } catch (error) {
-            console.error("Appwrite service :: logout :: error", error);
             throw error;
         }
     }
 
-    // Enhanced security methods
     async updatePassword({oldPassword, newPassword}) {
         try {
             return await this.account.updatePassword(newPassword, oldPassword);
         } catch (error) {
-            console.error("Appwrite service :: updatePassword :: error", error);
             throw error;
         }
     }
 
-    // Helper function to get the correct base URL for email links
     getBaseUrl() {
-        // In production, use the configured production URL
-        // In development, use localhost
         if (import.meta.env.PROD) {
             return conf.productionUrl;
         } else {
@@ -131,7 +114,6 @@ export class AuthService {
                 `${this.getBaseUrl()}/reset-password`
             );
         } catch (error) {
-            console.error("Appwrite service :: sendPasswordRecovery :: error", error);
             throw error;
         }
     }
@@ -140,7 +122,6 @@ export class AuthService {
         try {
             return await this.account.updateRecovery(userId, secret, password, password);
         } catch (error) {
-            console.error("Appwrite service :: completePasswordRecovery :: error", error);
             throw error;
         }
     }
@@ -151,7 +132,6 @@ export class AuthService {
                 `${this.getBaseUrl()}/verify-email`
             );
         } catch (error) {
-            console.error("Appwrite service :: sendEmailVerification :: error", error);
             throw error;
         }
     }
@@ -160,7 +140,6 @@ export class AuthService {
         try {
             return await this.account.updateVerification(userId, secret);
         } catch (error) {
-            console.error("Appwrite service :: verifyEmail :: error", error);
             throw error;
         }
     }
@@ -169,7 +148,6 @@ export class AuthService {
         try {
             return await this.account.listSessions();
         } catch (error) {
-            console.error("Appwrite service :: getSessions :: error", error);
             throw error;
         }
     }
@@ -178,7 +156,6 @@ export class AuthService {
         try {
             return await this.account.deleteSession(sessionId);
         } catch (error) {
-            console.error("Appwrite service :: deleteSession :: error", error);
             throw error;
         }
     }

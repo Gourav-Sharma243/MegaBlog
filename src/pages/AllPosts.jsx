@@ -7,7 +7,6 @@ function AllPosts() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // Get only active posts from all users
     appwriteService.getPosts([Query.equal("status", "active")]).then((posts) => {
       if (posts) {
         setPosts(posts.documents);
@@ -18,7 +17,6 @@ function AllPosts() {
   return (
     <div className="w-full py-10 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <Container>
-        {/* Header */}
         <div className="mb-8">
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -30,7 +28,6 @@ function AllPosts() {
           </div>
         </div>
 
-        {/* Posts Grid */}
         {posts.length === 0 ? (
           <div className="text-center py-20">
             <svg className="w-24 h-24 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

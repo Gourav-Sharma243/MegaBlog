@@ -31,7 +31,8 @@ export default function Post() {
         if (post.featuredImage) {
           appwriteService.deleteFile(post.featuredImage);
         }
-        navigate("/");
+        // Go back to the previous page instead of always going to home
+        navigate(-1);
       }
     });
   };
