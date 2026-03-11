@@ -72,7 +72,6 @@ export class Service{
                     featuredImage,
                     status,
                     userId,
-                    slug: documentId, // Save slug as an attribute too
                 }
             )
         } catch (error) {
