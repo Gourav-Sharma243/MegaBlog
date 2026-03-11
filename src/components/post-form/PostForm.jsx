@@ -88,57 +88,61 @@ export default function PostForm({ post }) {
     }
 
     return (
-        <div className="max-w-screen-lg mx-auto px-4">
-            <form onSubmit={handleSubmit(submit)} className="flex flex-col md:flex-row md:flex-wrap">
-                <div className="w-full md:w-2/3 px-2">
+        <div className="max-w-screen-lg mx-auto px-4 pb-20">
+            <form onSubmit={handleSubmit(submit)} className="flex flex-col lg:flex-row gap-8">
+                <div className="flex-grow space-y-6">
                     <Input
-                        label="Title :"
-                        placeholder="Title"
-                        className="mb-4"
+                        label="Post Title"
+                        placeholder="Give your story a title..."
                         {...register("title", { required: true })}
                     />
                     <Input
-                        label="Slug :"
-                        placeholder="Slug"
-                        className="mb-4"
+                        label="URL Slug"
+                        placeholder="story-link-slug"
                         {...register("slug", { required: true })}
                         onInput={(e) => {
                             setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
                         }}
                     />
-                    <RTE
-                        label="Content :"
-                        name="content"
-                        control={control}
-                        defaultValue={getValues("content")}
-                    />
+                    <div className="space-y-2">
+                        <label className="text-sm font-semibold text-text-light/70 dark:text-text-dark/70 ml-1">Content</label>
+                        <RTE
+                            name="content"
+                            control={control}
+                            defaultValue={getValues("content")}
+                        />
+                    </div>
                 </div>
-                <div className="w-full md:w-1/3 px-2 mt-4 md:mt-0">
-                    <Input
-                        label="Featured Image :"
-                        type="file"
-                        className="mb-4"
-                        accept="image/png, image/jpg, image/jpeg, image/gif"
-                        {...register("image", { required: !post })}
-                    />
-                    {post && (
-                        <div className="w-full mb-4">
-                            <img
-                                src={appwriteService.getFileView(post.featuredImage)}
-                                alt={post.title}
-                                className="rounded-lg w-full object-cover"
-                            />
-                        </div>
-                    )}
-                    <Select
-                        options={["active", "inactive"]}
-                        label="Status"
-                        className="mb-4"
-                        {...register("status", { required: true })}
-                    />
-                    <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                        {post ? "Update" : "Submit"}
-                    </Button>
+                
+                <div className="w-full lg:w-80 space-y-6">
+                    <div className="p-6 rounded-[32px] bg-white/50 dark:bg-surface-dark/30 border border-gray-100 dark:border-white/5 space-y-6">
+                        <Input
+                            label="Cover Image"
+                            type="file"
+                            accept="image/png, image/jpg, image/jpeg, image/gif"
+                            {...register("image", { required: !post })}
+                        />
+                        
+                        {post && (
+                            <div className="w-full aspect-[4/3] overflow-hidden rounded-2xl border border-white/5">
+                                <img
+                                    src={appwriteService.getFileView(post.featuredImage)}
+                                    alt={post.title}
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        )}
+                        
+                        <Select
+                            options={["active", "inactive"]}
+                            label="Visibility"
+                            {...register("status", { required: true })}
+                        />
+                        
+                        <Button type="submit" className="w-full py-4 text-base">
+                            {post ? "Publish Changes" : "Create Post"}
+                        </Button>
+                    </div>
                 </div>
             </form>
         </div>

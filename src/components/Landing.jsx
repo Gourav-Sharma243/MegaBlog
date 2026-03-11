@@ -1,145 +1,143 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
+import { Edit3, Image as ImageIcon, ShieldCheck, Zap, Globe, Infinity as InfinityIcon } from 'lucide-react';
+import { Container } from './index';
 
 const Landing = () => {
     const authStatus = useSelector((state) => state.auth.status);
 
+    const features = [
+        {
+            title: "Rich Text Editor",
+            description: "Craft your stories with our refined, distraction-free editor designed for fluid expression.",
+            icon: <Edit3 className="w-6 h-6 text-primary-dark" />,
+            delay: 0.1
+        },
+        {
+            title: "Image Management",
+            description: "Seamlessly upload and organize high-resolution featured images with secure cloud storage.",
+            icon: <ImageIcon className="w-6 h-6 text-primary-dark" />,
+            delay: 0.2
+        },
+        {
+            title: "Secure Authentication",
+            description: "State-of-the-art security powered by Appwrite, keeping your creative space protected.",
+            icon: <ShieldCheck className="w-6 h-6 text-primary-dark" />,
+            delay: 0.3
+        }
+    ];
+
+    const stats = [
+        { label: "Unlimited Posts", icon: <InfinityIcon className="w-8 h-8" /> },
+        { label: "Lightning Fast", icon: <Zap className="w-8 h-8" /> },
+        { label: "Fully Responsive", icon: <Globe className="w-8 h-8" /> }
+    ];
+
     return (
-        <div className="bg-gray-50 dark:bg-gray-900">
-            <section className="relative overflow-hidden pt-20 pb-32 bg-gradient-to-br from-orange-50 via-white to-teal-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-600/5 to-teal-600/5 dark:from-orange-600/10 dark:to-teal-600/10"></div>
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center">
-                        <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900 dark:text-white mb-6 transition-colors">
-                            Welcome to{' '}
-                            <span className="bg-gradient-to-r from-orange-600 to-teal-600 bg-clip-text text-transparent">
-                                MegaBlog
-                            </span>
-                        </h1>
-                        <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-                            Share your thoughts, stories, and ideas with the world. Create beautiful blog posts with our powerful editor and reach readers everywhere.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            {authStatus ? (
-                                <>
-                                    <Link
-                                        to="/all-posts"
-                                        className="px-8 py-4 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 dark:hover:bg-orange-500 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-                                    >
-                                        View All Posts
-                                    </Link>
-                                    <Link
-                                        to="/add-post"
-                                        className="px-8 py-4 bg-white dark:bg-gray-800 text-orange-600 dark:text-orange-400 border-2 border-orange-600 dark:border-orange-400 rounded-lg font-semibold hover:bg-orange-50 dark:hover:bg-gray-700 transition-all duration-200"
-                                    >
-                                        Create New Post
-                                    </Link>
-                                </>
-                            ) : (
-                                <>
-                                    <Link
-                                        to="/signup"
-                                        className="px-8 py-4 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 dark:hover:bg-orange-500 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-                                    >
-                                        Get Started Free
-                                    </Link>
-                                    <Link
-                                        to="/login"
-                                        className="px-8 py-4 bg-white dark:bg-gray-800 text-orange-600 dark:text-orange-400 border-2 border-orange-600 dark:border-orange-400 rounded-lg font-semibold hover:bg-orange-50 dark:hover:bg-gray-700 transition-all duration-200"
-                                    >
-                                        Sign In
-                                    </Link>
-                                </>
-                            )}
-                        </div>
+        <div className="bg-background-light dark:bg-background-dark transition-colors duration-700">
+            {/* Hero Section */}
+            <section className="relative pt-32 pb-24 overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary-dark/5 via-transparent to-transparent pointer-events-none" />
+                
+                <Container>
+                    <div className="text-center relative z-10">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <h1 className="text-6xl md:text-8xl font-display font-extrabold text-text-light dark:text-text-dark mb-8 tracking-tighter leading-tight">
+                                Modern Space for <br />
+                                <span className="text-primary-dark underline decoration-primary-dark/20 underline-offset-8">Modern Creators.</span>
+                            </h1>
+                            <p className="text-xl md:text-2xl text-text-light/60 dark:text-text-dark/60 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
+                                MegaBlog is a refined platform where minimalism meets power. Share your perspective in an environment built for clarity and impact.
+                            </p>
+                            
+                            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                                {authStatus ? (
+                                    <>
+                                        <Link to="/all-posts" className="px-10 py-5 bg-primary-dark text-white rounded-2xl font-bold shadow-soft-dark hover:shadow-primary-dark/20 transition-all duration-300 hover:-translate-y-1">
+                                            Explore Articles
+                                        </Link>
+                                        <Link to="/add-post" className="px-10 py-5 bg-white dark:bg-surface-dark text-text-light dark:text-text-dark border border-gray-100 dark:border-white/5 rounded-2xl font-bold hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                                            Create New Story
+                                        </Link>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link to="/signup" className="px-10 py-5 bg-primary-dark text-white rounded-2xl font-bold shadow-soft-dark hover:shadow-primary-dark/20 transition-all duration-300 hover:-translate-y-1">
+                                            Start Writing Free
+                                        </Link>
+                                        <Link to="/login" className="px-10 py-5 bg-white dark:bg-surface-dark text-text-light dark:text-text-dark border border-gray-100 dark:border-white/5 rounded-2xl font-bold hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                                            Sign In
+                                        </Link>
+                                    </>
+                                )}
+                            </div>
+                        </motion.div>
                     </div>
-                </div>
+                </Container>
             </section>
 
-            <section className="py-20 bg-white dark:bg-gray-800 transition-colors">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4 transition-colors">
-                            Everything you need to blog
+            {/* Features Section */}
+            <section className="py-24 bg-gray-50/50 dark:bg-surface-dark/20 transition-colors">
+                <Container>
+                    <div className="text-center mb-20">
+                        <h2 className="text-4xl md:text-5xl font-display font-bold text-text-light dark:text-text-dark mb-6">
+                            Crafted for Excellence
                         </h2>
-                        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto transition-colors">
-                            Powerful features to help you create, manage, and share your content with ease.
-                        </p>
+                        <div className="w-20 h-1.5 bg-primary-dark/30 rounded-full mx-auto" />
                     </div>
                     
-                    <div className="flex flex-wrap -mx-4 justify-center">
-                        <div className="p-4 w-full sm:w-1/2 lg:w-1/3">
-                            <div className="text-center p-8 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-gray-700 dark:to-gray-600 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 transform hover:scale-105 h-full">
-                                <div className="w-16 h-16 bg-orange-600 dark:bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                    </svg>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {features.map((feature, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: feature.delay }}
+                                className="p-10 rounded-[32px] bg-white dark:bg-surface-dark/40 border border-gray-100 dark:border-white/5 hover:shadow-soft-lg dark:hover:shadow-2xl transition-all duration-500 group"
+                            >
+                                <div className="w-14 h-14 bg-primary-dark/5 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary-dark/10 transition-colors">
+                                    {feature.icon}
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">Rich Text Editor</h3>
-                                <p className="text-gray-600 dark:text-gray-300 transition-colors">
-                                    Create beautiful content with our powerful TinyMCE editor. Format text, add images, and more.
+                                <h3 className="text-2xl font-bold text-text-light dark:text-text-dark mb-4">{feature.title}</h3>
+                                <p className="text-text-light/60 dark:text-text-dark/60 leading-relaxed">
+                                    {feature.description}
                                 </p>
-                            </div>
-                        </div>
-
-                        <div className="p-4 w-full sm:w-1/2 lg:w-1/3">
-                            <div className="text-center p-8 rounded-xl bg-gradient-to-br from-teal-50 to-teal-100 dark:from-gray-700 dark:to-gray-600 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 transform hover:scale-105 h-full">
-                                <div className="w-16 h-16 bg-teal-600 dark:bg-teal-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">Image Upload</h3>
-                                <p className="text-gray-600 dark:text-gray-300 transition-colors">
-                                    Upload and manage featured images for your posts with secure cloud storage.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="p-4 w-full sm:w-1/2 lg:w-1/3">
-                            <div className="text-center p-8 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-gray-700 dark:to-gray-600 hover:shadow-xl dark:hover:shadow-2xl transition-all duration-300 transform hover:scale-105 h-full">
-                                <div className="w-16 h-16 bg-emerald-600 dark:bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">Secure Auth</h3>
-                                <p className="text-gray-600 dark:text-gray-300 transition-colors">
-                                    Safe and secure user authentication powered by Appwrite backend services.
-                                </p>
-                            </div>
-                        </div>
+                            </motion.div>
+                        ))}
                     </div>
-                </div>
+                </Container>
             </section>
 
-            <section className="py-20 bg-gradient-to-r from-orange-600 to-teal-600 dark:from-orange-700 dark:to-teal-700">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-wrap -mx-4 justify-center">
-                        <div className="p-4 w-full sm:w-1/2 lg:w-1/3 text-center">
-                            <div className="transform hover:scale-110 transition-all duration-300 cursor-pointer">
-                                <div className="text-5xl font-extrabold mb-4 text-white">∞</div>
-                                <div className="text-xl font-semibold text-white">Unlimited Posts</div>
-                            </div>
-                        </div>
-                        <div className="p-4 w-full sm:w-1/2 lg:w-1/3 text-center">
-                            <div className="transform hover:scale-110 transition-all duration-300 cursor-pointer">
-                                <div className="text-5xl font-extrabold mb-4 text-white">🚀</div>
-                                <div className="text-xl font-semibold text-white">Lightning Fast</div>
-                            </div>
-                        </div>
-                        <div className="p-4 w-full sm:w-1/2 lg:w-1/3 text-center">
-                            <div className="transform hover:scale-110 transition-all duration-300 cursor-pointer">
-                                <div className="text-5xl font-extrabold mb-4 text-white">📱</div>
-                                <div className="text-xl font-semibold text-white">Fully Responsive</div>
-                            </div>
-                        </div>
+            {/* Stats / Callout Section */}
+            <section className="py-24">
+                <Container>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        {stats.map((stat, idx) => (
+                            <motion.div
+                                key={idx}
+                                whileHover={{ scale: 1.05 }}
+                                className="text-center p-8 cursor-default"
+                            >
+                                <div className="text-primary-dark mb-6 flex justify-center opacity-80">
+                                    {stat.icon}
+                                </div>
+                                <div className="text-2xl font-display font-bold text-text-light dark:text-text-dark">
+                                    {stat.label}
+                                </div>
+                            </motion.div>
+                        ))}
                     </div>
-                </div>
+                </Container>
             </section>
-
         </div>
     );
 };
 
-export default Landing;
+export default Landing;

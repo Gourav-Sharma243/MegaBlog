@@ -1,140 +1,75 @@
-# 🚀 MegaBlog - Modern Blogging Platform
+# 🚀 MegaBlog - Professional Blogging Refined
 
 <div align="center">
   <img src="https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/Vite-4.4.5-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Shadcn_UI-Latest-000000?style=for-the-badge&logo=shadcnui&logoColor=white" alt="ShadcnUI" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-3.3.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
   <img src="https://img.shields.io/badge/Appwrite-13.0.0-F02E65?style=for-the-badge&logo=appwrite&logoColor=white" alt="Appwrite" />
-  <img src="https://img.shields.io/badge/Redux_Toolkit-1.9.5-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="Redux Toolkit" />
+  <img src="https://img.shields.io/badge/Framer_Motion-12.0-ff69b4?style=for-the-badge&logo=framer&logoColor=white" alt="FramerMotion" />
 </div>
 
 <br />
 
-**MegaBlog** is a modern, feature-rich blogging platform built with React and powered by Appwrite. It offers a seamless writing experience with a beautiful, responsive design that adapts perfectly to both desktop and mobile devices.
+**MegaBlog** is a premium, minimalist blogging platform designed for modern creators. It features a refined **V5 Aesthetic** (Deep Navy & Indigo) with a focus on continuous page flow, glassmorphism, and distraction-free writing.
 
-## ✨ Features
+## ✨ V5 Features
 
-### 🎨 **Modern Design**
-- **Responsive UI**: Optimized for all screen sizes with mobile-first approach
-- **Dark Mode Support**: Toggle between light and dark themes
-- **Gradient Design**: Beautiful orange-to-teal gradient theme throughout
-- **Smooth Animations**: Hover effects and transitions for enhanced UX
+### 🎨 **Continuous Flow Design**
+- **Unified Aesthetic**: A cohesive Deep Navy (#0f172a) and Indigo palette that eliminates "blocky" section breaks.
+- **Glassmorphism**: Subtle transluency and blurred backgrounds for high-end UI depth.
+- **Premium Components**: Fully integrated with `shadcn/ui` for professional-grade inputs, buttons, and cards.
+- **Micro-Animations**: Fluid transitions powered by Framer Motion for a tactile, responsive feel.
 
-### 🔐 **Authentication & User Management**
-- **Secure Authentication**: Email/password login with Appwrite
-- **User Registration**: Easy signup process with validation
-- **Password Recovery**: Forgot password and reset functionality
-- **User Profiles**: Comprehensive profile pages with account information
-- **Session Management**: Persistent login state with Redux
+### 📝 **Creative Workspace**
+- **Refined Editor**: A minimalist, wide-canvas editor with a floating glassmorphic toolbar for focused writing.
+- **Image Intelligence**: Seamlessly manage high-resolution featured images with secure cloud storage.
+- **Draft Management**: Transition effortlessly between private drafts and published stories.
 
-### 📝 **Content Management**
-- **Rich Text Editor**: TinyMCE integration for advanced post editing
-- **Draft System**: Save posts as drafts before publishing
-- **Post Status Management**: Active/Draft visibility controls
-- **Image Upload**: Featured image support with Appwrite storage
-- **Post Categories**: Organize content efficiently
-
-### 🚀 **Advanced Features**
-- **Dual Post Views**:
-  - **My Posts**: Private workspace showing all user posts (active + drafts)
-  - **All Posts**: Public feed displaying only active posts from all users
-- **Smart Navigation**: Different menu options for authenticated vs. unauthenticated users
-- **Mobile Menu**: Hamburger menu for mobile devices
-- **Quick Actions**: Easy access to create, edit, and manage posts
-- **Real-time Updates**: Dynamic content loading and state management
-
-### 🎯 **User Experience**
-- **Landing Page**: Engaging homepage with features showcase
-- **Empty States**: Helpful messages when no content is available
-- **Loading States**: Smooth loading indicators throughout the app
-- **Error Handling**: Graceful error management and user feedback
-- **Intuitive Navigation**: Easy-to-use interface with clear visual hierarchy
+### 🔐 **Enterprise-Grade Infrastructure**
+- **Safe Authentication**: Secure user sessions powered by Appwrite.
+- **Responsive Mastery**: A mobile-first architecture that scales perfectly from mobile handsets to ultra-wide displays.
+- **Lighting Performance**: Optimized build architecture ensuring instant interactions and transitions.
 
 ## 🛠️ Tech Stack
 
-### **Frontend**
-- **React 18.2.0** - Modern React with Hooks and Context
-- **Vite 4.4.5** - Lightning-fast build tool and dev server
-- **Tailwind CSS 3.3.3** - Utility-first CSS framework
-- **React Router DOM 6.16.0** - Client-side routing
-- **Redux Toolkit 1.9.5** - State management
-- **React Hook Form 7.46.1** - Form handling and validation
+### **Frontend Mastery**
+- **React 18** & **Vite**: The engine behind the lightning-fast dev and build experience.
+- **Shadcn/UI**: High-fidelity accessible components.
+- **Tailwind CSS**: Utility-first styling with a custom V5 brand configuration.
+- **Framer Motion**: The standard for modern web animations.
 
 ### **Backend & Services**
-- **Appwrite 13.0.0** - Backend-as-a-Service
-  - Authentication
-  - Database (NoSQL)
-  - File Storage
-  - Real-time subscriptions
+- **Appwrite**: Scalable authentication, NoSQL databases, and encrypted file storage.
+- **Lucide React**: Beautifully consistent, pixel-perfect iconography.
 
-### **Additional Tools**
-- **TinyMCE** - Rich text editor for post content
-- **HTML React Parser** - Safe HTML rendering
-- **ESLint** - Code linting and formatting
-- **PostCSS & Autoprefixer** - CSS processing
-
-## � Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
-- Appwrite server instance
+- Node.js (v18 or higher)
+- Appwrite Project ID & Endpoint
 
 ### Installation
 
-1. **Clone the repository**
+1. **Clone & Install**
    ```bash
    git clone https://github.com/your-username/megablog.git
    cd megablog
-   ```
-
-2. **Install dependencies**
-   ```bash
    npm install
-   # or
-   yarn install
    ```
 
-3. **Environment Setup**
-   
-   Create a `.env` file in the root directory:
+2. **Environment Configuration**
+   Create a `.env` in the root and map your Appwrite credentials:
    ```env
-   VITE_APPWRITE_URL=your_appwrite_endpoint
-   VITE_APPWRITE_PROJECT_ID=your_project_id
-   VITE_APPWRITE_DATABASE_ID=your_database_id
-   VITE_APPWRITE_COLLECTION_ID=your_collection_id
-   VITE_APPWRITE_BUCKET_ID=your_bucket_id
-   VITE_TINYMCE_API_KEY=your_tinymce_api_key
+   VITE_APPWRITE_URL=https://cloud.appwrite.io/v1
+   VITE_APPWRITE_PROJECT_ID=...
+   VITE_APPWRITE_DATABASE_ID=...
+   VITE_APPWRITE_COLLECTION_ID=...
+   VITE_APPWRITE_BUCKET_ID=...
    ```
 
-4. **Appwrite Configuration**
-   
-   Set up your Appwrite project with:
-   - **Database**: Create a database for blog posts
-   - **Collection**: Set up a collection with these attributes:
-     ```
-     - title (string, required)
-     - content (string, required)
-     - featuredImage (string)
-     - status (string, required) - "active" or "inactive"
-     - userId (string, required)
-     - slug (string, required, unique)
-     ```
-   - **Storage**: Create a bucket for featured images
-   - **Authentication**: Enable email/password authentication
-
-5. **Start Development Server**
+3. **Launch**
    ```bash
    npm run dev
-   # or
-   yarn dev
-   ```
-
-6. **Build for Production**
-   ```bash
-   npm run build
-   # or
-   yarn build
    ```
 
 ## 📁 Project Structure

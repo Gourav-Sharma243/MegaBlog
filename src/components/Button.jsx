@@ -1,22 +1,30 @@
 import React from "react";
+import { Button as ShadcnButton } from "./ui/button";
+import { cn } from "../lib/utils";
 
 export default function Button({
     children,
     type = "button",
-    bgColor = "bg-orange-600",
-    textColor = "text-white",
     className = "",
+    variant = "default",
+    size = "default",
     disabled = false,
     ...props
 }) {
     return (
-        <button 
-            className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-md ${bgColor} ${textColor} hover:bg-opacity-90 dark:shadow-xl ${className}`} 
+        <ShadcnButton 
+            variant={variant}
+            size={size}
             type={type}
             disabled={disabled}
+            className={cn(
+                "rounded-2xl font-bold transition-all duration-300 active:scale-[0.98]",
+                variant === "default" && "bg-primary-dark hover:bg-primary-dark/90 shadow-[0_10px_30px_rgba(99,102,241,0.2)]",
+                className
+            )} 
             {...props}
         >
             {children}
-        </button>
+        </ShadcnButton>
     )
 }
