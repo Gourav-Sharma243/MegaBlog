@@ -11,10 +11,21 @@ function Footer() {
           </div>
           
         <div className="border-t border-white/10 dark:border-white/5 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white/50 dark:text-dark-text/50 text-sm">
               &copy; 2025 MegaBlog. All rights reserved.
             </p>
+            <div className="flex items-center gap-1.5 text-sm">
+              <span className="text-white/50 dark:text-dark-text/50">Developed by</span>
+              <a 
+                href="https://www.gouravsharma.dev/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-indigo-400 hover:text-indigo-300 transition-colors font-medium border-b border-indigo-400/30 hover:border-indigo-300 pb-0.5"
+              >
+                Gourav Sharma
+              </a>
+            </div>
           </div>
         </div>
         </div>
