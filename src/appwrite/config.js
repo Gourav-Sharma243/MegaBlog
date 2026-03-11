@@ -59,31 +59,34 @@ export class Service{
                 this.storeUserMapping(userId, authorName);
             }
             
-            const uniqueId = ID.unique();
+            // Using slug as the document ID for cleaner URLs and consistency
+            const documentId = slug || ID.unique();
             
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                uniqueId,
+                documentId,
                 {
                     title,
                     content,
                     featuredImage,
                     status,
                     userId,
+                    slug: documentId, // Save slug as an attribute too
                 }
             )
         } catch (error) {
+            console.error("Appwrite service :: createPost :: error", error);
             throw error;
         }
     }
 
-    async updatePost(slug, {title, content, featuredImage, status}){
+    async updatePost(documentId, {title, content, featuredImage, status}){
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                slug,
+                documentId,
                 {
                     title,
                     content,
@@ -92,7 +95,8 @@ export class Service{
                 }
             )
         } catch (error) {
-            
+            console.error("Appwrite service :: updatePost :: error", error);
+            throw error;
         }
     }
 

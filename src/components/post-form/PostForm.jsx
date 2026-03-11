@@ -20,45 +20,57 @@ export default function PostForm({ post }) {
     const userData = useSelector(state => state.auth.userData);
 
     const submit = async (data) => {
-        if (!userData || !userData.$id) {
-            alert("User data not loaded yet. Please wait or re-login.");
-            return;
-        }
-
-        if (post) {
-            const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
-
-            if (file) {
-                appwriteService.deleteFile(post.featuredImage);
+        try {
+            if (!userData || !userData.$id) {
+                alert("User data not loaded yet. Please wait or re-login.");
+                return;
             }
 
-            const dbPost = await appwriteService.updatePost(post.$id, {
-                ...data,
-                featuredImage: file ? file.$id : undefined,
-            });
+            if (post) {
+                const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
 
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`);
-            }
-        } else {
-            const file = await appwriteService.uploadFile(data.image[0]);
+                if (file) {
+                    await appwriteService.deleteFile(post.featuredImage);
+                }
 
-            if (file) {
-                const fileId = file.$id;
-                data.featuredImage = fileId;
-
-                appwriteService.storeUserMapping(userData.$id, userData.name);
-
-                const dbPost = await appwriteService.createPost({
+                const dbPost = await appwriteService.updatePost(post.$id, {
                     ...data,
-                    userId: userData.$id,
-                    authorName: userData.name,
+                    featuredImage: file ? file.$id : undefined,
                 });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }
+            } else {
+                if (!data.image[0]) {
+                    alert("Please select a cover image.");
+                    return;
+                }
+
+                const file = await appwriteService.uploadFile(data.image[0]);
+
+                if (file) {
+                    const fileId = file.$id;
+                    data.featuredImage = fileId;
+
+                    appwriteService.storeUserMapping(userData.$id, userData.name);
+
+                    const dbPost = await appwriteService.createPost({
+                        ...data,
+                        userId: userData.$id,
+                        authorName: userData.name,
+                    });
+
+                    if (dbPost) {
+                        navigate(`/post/${dbPost.$id}`);
+                    }
+                } else {
+                    alert("Failed to upload image. Please try again.");
+                }
             }
+        } catch (error) {
+            console.error("PostForm :: submit :: error", error);
+            alert(error.message || "An unexpected error occurred. Please try again.");
         }
     };
 
