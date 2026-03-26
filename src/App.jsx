@@ -5,6 +5,7 @@ import { login, logout } from "./store/authSlice"
 import { Footer, Header } from './components'
 import FAB from './components/FAB'
 import { Outlet } from 'react-router-dom'
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -36,6 +37,7 @@ function App() {
       </main>
       <Footer />
       <FAB />
+      <Analytics />
     </div>
   ) : (
     <div className="flex justify-center items-center min-h-screen bg-background-light dark:bg-background-dark">
