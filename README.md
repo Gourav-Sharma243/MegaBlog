@@ -60,7 +60,7 @@
 2. **Environment Configuration**
    Create a `.env` in the root and map your Appwrite credentials:
    ```env
-   VITE_APPWRITE_URL=https://cloud.appwrite.io/v1
+   VITE_APPWRITE_URL=...
    VITE_APPWRITE_PROJECT_ID=...
    VITE_APPWRITE_DATABASE_ID=...
    VITE_APPWRITE_COLLECTION_ID=...
@@ -149,21 +149,6 @@ src/
 - **Post Cards**: Preview with featured images
 - **Responsive Grid**: Adapts to screen size
 
-
-## 🙏 Acknowledgments
-
-- **Appwrite** for the excellent Backend-as-a-Service platform
-- **TinyMCE** for the powerful rich text editor
-- **Tailwind CSS** for the utility-first CSS framework
-- **React Team** for the amazing frontend library
-
-- [React](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Appwrite](https://appwrite.io/)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [TinyMCE](https://www.tiny.cloud/)
-- [React Hook Form](https://react-hook-form.com/)
 
 ---
 
