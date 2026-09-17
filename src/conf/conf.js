@@ -6,7 +6,7 @@ const conf = {
     appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
     tiny_mce_rte_id: String(import.meta.env.VITE_TINYMCE_RTE_ID),
     // Production URL for email verification links
-    productionUrl: String(import.meta.env.VITE_PRODUCTION_URL || 'https://megablog.gouravsharma.dev')
+    productionUrl: String(import.meta.env.VITE_PRODUCTION_URL || 'https://megablogapp1.vercel.app')
 }
 // there was a name issue with the import.meta.env.VITE_APPWRITE_URL, it was later fixed in debugging video
 

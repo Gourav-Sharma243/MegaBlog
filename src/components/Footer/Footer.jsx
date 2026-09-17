@@ -18,7 +18,7 @@ function Footer() {
             <div className="flex items-center gap-1.5 text-sm">
               <span className="text-text-light/50 dark:text-text-dark/50">Developed by</span>
               <a 
-                href="https://www.gouravsharma.dev/" 
+                href="https://gourav-sharma-dev.vercel.app/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-primary-light dark:text-primary-dark hover:opacity-80 transition-all font-medium border-b border-primary-light/30 dark:border-primary-dark/30 hover:border-primary-light dark:hover:border-primary-dark pb-0.5"
